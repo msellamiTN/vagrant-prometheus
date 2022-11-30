@@ -3,9 +3,7 @@ version: '3.7'
 services:
 
   master:
-    build:
-      context: /ubuntu
-      dockerfile: Dockerfile
+    build: ./ubuntu
     hostname: master
     volumes:
       - /var/lib/master:/master_home
@@ -13,18 +11,14 @@ services:
       org.label-schema.group: "monitoring"
       
   node1:
-    build:
-      context: /ubuntu
-      dockerfile: Dockerfile
+    build: ./ubuntu
     hostname: node1
     volumes:
       - /var/lib/node1:/node1_home
     labels:
       org.label-schema.group: "monitoring" 
   node2:
-    build:
-      context: /ubuntu
-      dockerfile: Dockerfile
+    build: ./ubuntu
     hostname: node2
     volumes:
       - /var/lib/node2:/node2_home
