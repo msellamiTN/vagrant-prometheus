@@ -1,0 +1,16 @@
+version: '3.7'
+
+services: 
+  master:
+    image: centos:7
+    
+  node1:
+    image: centos:7
+    
+    depends_on:
+      - master
+  node2:
+    image: centos:7
+    
+    depends_on:
+      - master
