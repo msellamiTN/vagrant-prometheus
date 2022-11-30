@@ -4,7 +4,7 @@ services:
 
   master:
     build:
-      context: ./ubuntu
+      context: /ubuntu
       dockerfile: Dockerfile
     hostname: master
     volumes:
@@ -14,7 +14,7 @@ services:
       
   node1:
     build:
-      context: ./ubuntu
+      context: /ubuntu
       dockerfile: Dockerfile
     hostname: node1
     volumes:
@@ -23,7 +23,7 @@ services:
       org.label-schema.group: "monitoring" 
   node2:
     build:
-      context: ./ubuntu
+      context: /ubuntu
       dockerfile: Dockerfile
     hostname: node2
     volumes:
