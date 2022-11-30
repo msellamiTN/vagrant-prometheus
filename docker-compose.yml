@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   master:
-    build: ./ubuntu
+    build: .
     hostname: master
     volumes:
       - /var/lib/master:/master_home
@@ -11,14 +11,14 @@ services:
       org.label-schema.group: "monitoring"
       
   node1:
-    build: ./ubuntu
+    build: .
     hostname: node1
     volumes:
       - /var/lib/node1:/node1_home
     labels:
       org.label-schema.group: "monitoring" 
   node2:
-    build: ./ubuntu
+    build: .
     hostname: node2
     volumes:
       - /var/lib/node2:/node2_home
