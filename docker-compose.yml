@@ -23,7 +23,6 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
-
   node1:
     image: centos7:latest
     container_name: master
