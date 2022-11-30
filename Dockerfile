@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
-RUN sudo apt-get update
+RUN apt-get update && \
+      apt-get -y install sudo
 
-CMD ["/bin/bash"]
-
+USER root
+CMD /bin/bash
