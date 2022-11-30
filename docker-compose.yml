@@ -8,9 +8,6 @@ services:
     volumes:
       - master_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    expose:
-      - 9090
-
     labels:
       org.label-schema.group: "monitoring"
       
@@ -20,21 +17,13 @@ services:
     volumes:
       - node_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-
-    expose:
-      - 9090
-
     labels:
       org.label-schema.group: "monitoring" 
   node2:
     build: /ubuntu/.
     container_name: node2
     volumes:
-
       - node_data:/data
-
-    expose:
-      - 9090
     labels:
       org.label-schema.group: "monitoring"
 
