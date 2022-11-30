@@ -10,8 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     expose:
       - 9090
-    networks:
-      - monitor-net
+
     labels:
       org.label-schema.group: "monitoring"
       
@@ -24,8 +23,7 @@ services:
 
     expose:
       - 9090
-    networks:
-      - monitor-net
+
     labels:
       org.label-schema.group: "monitoring" 
   node2:
@@ -37,8 +35,6 @@ services:
 
     expose:
       - 9090
-    networks:
-      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
 
