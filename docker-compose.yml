@@ -5,26 +5,37 @@ services:
   master:
     build: /ubuntu/.
     container_name: master
+    restart: unless-stopped
+    hostname: master
+    network_mode: bridge
+    ports:
+    #  - "8080:8080/tcp"
     volumes:
-      - master_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/master:/master_home
     labels:
       org.label-schema.group: "monitoring"
       
   node1:
     build: /ubuntu/.
     container_name: node1
+    restart: unless-stopped
+    hostname: node1
+    network_mode: bridge
+    ports:
+    #  - "8080:8080/tcp"
     volumes:
-      - node_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/node1:/node1_home
     labels:
       org.label-schema.group: "monitoring" 
-  node2:
+ node2:
     build: /ubuntu/.
     container_name: node2
+    restart: unless-stopped
+    hostname: node2
+    network_mode: bridge
+    ports:
+    #  - "8080:8080/tcp"
     volumes:
-      - node_data:/data
+      - /var/lib/node1:/node1_home
     labels:
-      org.label-schema.group: "monitoring"
-
-  
+      org.label-schema.group: "monitoring" 
