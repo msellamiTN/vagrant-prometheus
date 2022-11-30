@@ -6,7 +6,7 @@ networks:
 
 volumes:
     master_data: {}
-    grafana_data: {}
+    node_data: {}
 
 services:
 
@@ -23,12 +23,13 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+      
   node1:
     image: centos7:latest
-    container_name: master
+    container_name: node1
     volumes:
 
-      - master_data:/prometheus
+      - node_data:/data
     restart: unless-stopped
     expose:
       - 9090
@@ -39,10 +40,10 @@ services:
 	  
   node2:
     image: centos7:latest
-    container_name: master
+    container_name: node2
     volumes:
 
-      - master_data:/prometheus
+      - node_data:/data
     restart: unless-stopped
     expose:
       - 9090
