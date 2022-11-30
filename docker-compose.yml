@@ -16,7 +16,7 @@ services:
     volumes:
 
       - master_data:/prometheus
-    restart: unless-stopped
+
     expose:
       - 9090
     networks:
@@ -30,7 +30,7 @@ services:
     volumes:
 
       - node_data:/data
-    restart: unless-stopped
+
     expose:
       - 9090
     networks:
@@ -43,7 +43,7 @@ services:
     volumes:
 
       - node_data:/data
-    restart: unless-stopped
+
     expose:
       - 9090
     networks:
