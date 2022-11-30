@@ -8,31 +8,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION)  do  |config|
   config.ssh.insert_key  =  false
   config.vm.synced_folder  ".",  "/vagrant"
   config.vm.provider  :docker  do  |v|
-    v.memory  =  1024
-    v.linked_clone  =  true
+  #  v.memory  =  1024
+  #  v.linked_clone  =  true
   end
 
   #  Swarm Control Master
   config.vm.define  "master"  do  |app|
     app.vm.hostname  =  "master"
-    app.vm.memory  =  1024
-    app.vm.linked_clone  =  true
+  #  app.vm.memory  =  1024
+  #  app.vm.linked_clone  =  true
     app.vm.network  :private_network,  ip:  "192.168.60.10"
   end
 
   #  Swarm node 1.
   config.vm.define  "node1"  do  |app|
     app.vm.hostname  =  "node1"
-    app.vm.memory  =  1024
-    app.vm.linked_clone  =  true    
+   # app.vm.memory  =  1024
+   # app.vm.linked_clone  =  true    
     app.vm.network  :private_network,  ip:  "192.168.60.20"
   end
 
   #  Swarm node 2.
   config.vm.define  "node2"  do  |app|
     app.vm.hostname  =  "node2"
-    app.vm.memory  =  1024
-    app.vm.linked_clone  =  true
+    #app.vm.memory  =  1024
+    #app.vm.linked_clone  =  true
     app.vm.network  :private_network,  ip:  "192.168.60.30"
   end
 
