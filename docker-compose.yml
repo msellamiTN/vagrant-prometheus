@@ -8,8 +8,6 @@ services:
     restart: unless-stopped
     hostname: master
     network_mode: bridge
-    ports:
-    #  - "8080:8080/tcp"
     volumes:
       - /var/lib/master:/master_home
     labels:
@@ -21,21 +19,17 @@ services:
     restart: unless-stopped
     hostname: node1
     network_mode: bridge
-    ports:
-    #  - "8080:8080/tcp"
     volumes:
       - /var/lib/node1:/node1_home
     labels:
       org.label-schema.group: "monitoring" 
- node2:
+  node2:
     build: /ubuntu/.
     container_name: node2
     restart: unless-stopped
     hostname: node2
     network_mode: bridge
-    ports:
-    #  - "8080:8080/tcp"
     volumes:
-      - /var/lib/node1:/node1_home
+      - /var/lib/node2:/node2_home
     labels:
       org.label-schema.group: "monitoring" 
