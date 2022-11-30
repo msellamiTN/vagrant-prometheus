@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   master:
-    image: centos
+    build: /ubuntu/.
     container_name: master
     volumes:
       - master_data:/data
@@ -15,7 +15,7 @@ services:
       org.label-schema.group: "monitoring"
       
   node1:
-    image: centos
+    build: /ubuntu/.
     container_name: node1
     volumes:
       - node_data:/data
@@ -27,7 +27,7 @@ services:
     labels:
       org.label-schema.group: "monitoring" 
   node2:
-    image: centos
+    build: /ubuntu/.
     container_name: node2
     volumes:
 
