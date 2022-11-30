@@ -4,8 +4,6 @@ services:
 
   master:
     build: /ubuntu/.
-    container_name: master
-    restart: unless-stopped
     hostname: master
     network_mode: bridge
     volumes:
@@ -15,8 +13,6 @@ services:
       
   node1:
     build: /ubuntu/.
-    container_name: node1
-    restart: unless-stopped
     hostname: node1
     network_mode: bridge
     volumes:
@@ -25,8 +21,6 @@ services:
       org.label-schema.group: "monitoring" 
   node2:
     build: /ubuntu/.
-    container_name: node2
-    restart: unless-stopped
     hostname: node2
     network_mode: bridge
     volumes:
