@@ -5,6 +5,7 @@ services:
   master:
     build:
       context: ./ubuntu
+      dockerfile: Dockerfile
     hostname: master
     volumes:
       - /var/lib/master:/master_home
@@ -14,6 +15,7 @@ services:
   node1:
     build:
       context: ./ubuntu
+      dockerfile: Dockerfile
     hostname: node1
     volumes:
       - /var/lib/node1:/node1_home
@@ -22,6 +24,7 @@ services:
   node2:
     build:
       context: ./ubuntu
+      dockerfile: Dockerfile
     hostname: node2
     volumes:
       - /var/lib/node2:/node2_home
