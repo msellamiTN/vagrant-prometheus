@@ -1,16 +1,55 @@
-version: '3.7'
+version: '2.1'
 
-services: 
+networks:
+  monitor-net:
+    driver: bridge
+
+volumes:
+    master_data: {}
+    grafana_data: {}
+
+services:
+
   master:
-    image: centos:7
-    
+    image: centos7:latest
+    container_name: master
+    volumes:
+
+      - master_data:/prometheus
+    restart: unless-stopped
+    expose:
+      - 9090
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
   node1:
-    image: centos:7
-    
-    depends_on:
-      - master
+    image: centos7:latest
+    container_name: master
+    volumes:
+
+      - master_data:/prometheus
+    restart: unless-stopped
+    expose:
+      - 9090
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+	  
   node2:
-    image: centos:7
-    
-    depends_on:
-      - master
+    image: centos7:latest
+    container_name: master
+    volumes:
+
+      - master_data:/prometheus
+    restart: unless-stopped
+    expose:
+      - 9090
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
+  
