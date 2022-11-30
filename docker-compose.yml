@@ -36,8 +36,7 @@ services:
     networks:
       - monitor-net
     labels:
-      org.label-schema.group: "monitoring"
-	  
+      org.label-schema.group: "monitoring" 
   node2:
     image: centos7:latest
     container_name: node2
