@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
 RUN apt-get update && \
-      apt-get -y install sudo
+      apt-get -y install nano
 
-USER root
-CMD /bin/bash
+ENTRYPOINT ["tail", "-f", "/dev/null"]
