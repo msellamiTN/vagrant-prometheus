@@ -1,5 +1,15 @@
 version: '3.7'
 
+networks:
+  monitor-net:
+    driver: bridge
+    external:
+      name: kafka-netwrok
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
 services:
 
   master:
