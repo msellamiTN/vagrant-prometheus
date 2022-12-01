@@ -5,7 +5,6 @@ services:
   master:
     build: ./prometheus
     hostname: master
-    command: /bin/sh -c /home/boostrap_prometheus.sh
     volumes:
       - /var/lib/master:/master_home
     expose:
@@ -15,7 +14,6 @@ services:
   node1:
     build: ./node_exporter
     hostname: node1
-    command: /bin/sh -c /home/boostrap_node_exporter.sh
     expose:
       - 9100
     volumes:
@@ -25,7 +23,6 @@ services:
   node2:
     build: ./node_exporter
     hostname: node2
-    command: /bin/sh -c /home/boostrap_node_exporter.sh
     expose:
       - 9100
     volumes:
