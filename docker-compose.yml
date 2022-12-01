@@ -7,11 +7,10 @@ services:
     hostname: master
     volumes:
       - /var/lib/master:/master_home
-    port:
-      - 9090:9090
+    expose:
+      - 9090
     labels:
       org.label-schema.group: "monitoring"
-      
   node1:
     build: .
     hostname: node1
