@@ -4,7 +4,7 @@ services:
 
   master:
     build:
-      context: ./prometheus
+      context: ./prometheus/
       dockerfile: Dockerfile
     hostname: master
     volumes:
@@ -15,7 +15,7 @@ services:
       org.label-schema.group: "monitoring"
   node1:
     build:
-      context: ./node_exporter
+      context: /node_exporter
       dockerfile: Dockerfile
     hostname: node1
     ports:
