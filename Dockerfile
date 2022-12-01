@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get install tar -y && \
     apt install systemctl -y 
 
-COPY boostrap_node_exporter.sh boostrap_node_exporter.sh /
+COPY boostrap_node_exporter.sh boostrap_node_exporter.sh /home/
 
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
