@@ -7,15 +7,15 @@ services:
     hostname: master
     volumes:
       - /var/lib/master:/master_home
-    expose:
-      - 9090
+    port:
+      - "9090:9090"
     labels:
       org.label-schema.group: "monitoring"
   node1:
     build: ./node_exporter
     hostname: node1
-    expose:
-      - 9100
+    port:
+      - "9100:9100"
     volumes:
       - /var/lib/node1:/node1_home
     labels:
@@ -23,8 +23,8 @@ services:
   node2:
     build: ./node_exporter
     hostname: node2
-    expose:
-      - 9100
+    port:
+      - "9100:9100"
     volumes:
       - /var/lib/node2:/node2_home
     labels:
