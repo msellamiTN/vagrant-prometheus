@@ -33,5 +33,16 @@ sudo cp -r prometheus-2.24.1.linux-amd64/console_libraries /etc/prometheus
 
 sudo chown -R prometheus:prometheus /etc/prometheus/consoles
 sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
+cd prometheus
+sudo cp prometheus.yml /etc/prometheus/
+sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+sudo cp prometheus.service /etc/systemd/system/prometheus.service
+cd ..
 
-sudo cp /prometheus/prometheus.yml /etc/prometheus/
+
+#Pour utiliser le service nouvellement créé, rechargez systemd.
+sudo systemctl daemon-reload
+#Vous pouvez maintenant démarrer Prometheus à l'aide de la commande suivante:
+sudo systemctl start prometheus
+#Pour vous assurer que Prometheus est en cours d'exécution, vérifiez l'état du service.
+sudo systemctl status prometheus
