@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   master:
-    build: .
+    build: ./prometheus
     hostname: master
     command: /bin/sh -c /home/boostrap_prometheus.sh
     volumes:
@@ -13,7 +13,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
   node1:
-    build: .
+    build: ./node_exporter
     hostname: node1
     command: /bin/sh -c /home/boostrap_node_exporter.sh
     expose:
@@ -23,7 +23,7 @@ services:
     labels:
       org.label-schema.group: "monitoring" 
   node2:
-    build: .
+    build: ./node_exporter
     hostname: node2
     command: /bin/sh -c /home/boostrap_node_exporter.sh
     expose:
