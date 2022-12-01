@@ -46,13 +46,4 @@ RUN sudo chown -R prometheus:prometheus /etc/prometheus/consoles
 RUN sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
  
 
-#Pour utiliser le service nouvellement créé, rechargez systemd.
-RUN sudo systemctl daemon-reload
-#Vous pouvez maintenant démarrer Prometheus à l'aide de la commande suivante:
-RUN sudo systemctl start prometheus
-#Pour vous assurer que Prometheus est en cours d'exécution, vérifiez l'état du service.
-RUN sudo systemctl status prometheus
-RUN sudo systemctl enable prometheus
- 
-
 ENTRYPOINT ["tail", "-f", "/dev/null"]
