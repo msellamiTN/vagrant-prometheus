@@ -2,6 +2,7 @@
 # vi: set ft=ruby  :
 
 VAGRANTFILE_API_VERSION = "2"
+
 Vagrant.configure(VAGRANTFILE_API_VERSION)  do  |config|
   # General Vagrant VM   configuration.
   config.vm.box  =  "centos/7"
@@ -10,13 +11,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION)  do  |config|
   config.vm.provider  :virtualbox  do  |v|
     v.memory  =  1024
     v.linked_clone  =  true
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false  
+  end
   end
 
   #  Swarm Control Master
   config.vm.define  "master"  do  |app|
     app.vm.hostname  =  "master"
     app.vm.network  :private_network,  ip:  "192.168.60.10"
-    app.vm.network "forwarded_port", guest: 9090, host: 9090
+	app.vm.provision "shell", path: "install_prometheus.sh"
+	app.vm.network "forwarded_port", guest: 9090, host: 9090
   end
 
   #  Swarm node 1.
