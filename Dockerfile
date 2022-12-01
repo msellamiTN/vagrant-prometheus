@@ -9,7 +9,7 @@ RUN apt-get update && \
        && \
       apt-get install tar -y
        && \
-       sudo apt install systemctl -y
+      apt install systemctl -y
 
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
