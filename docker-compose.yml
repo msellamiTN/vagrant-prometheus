@@ -4,13 +4,25 @@ services:
 
   master:
     build:
-      context: ./prometheus/
+      context: ./prometheus
       dockerfile: Dockerfile
     hostname: master
+    container_name: prometheus
     volumes:
-      - /var/lib/master:/master_home
-    ports:
-      - "9090:9090"
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    expose:
+      - 9090
+    networks:
+      - monitor-net
     labels:
       org.label-schema.group: "monitoring"
   node1:
@@ -24,14 +36,4 @@ services:
       - /var/lib/node1:/node1_home
     labels:
       org.label-schema.group: "monitoring" 
-  node2:
-    build:
-      context: ./node_exporter
-      dockerfile: Dockerfile
-    hostname: node2
-    ports:
-      - "9101:9100"
-    volumes:
-      - /var/lib/node2:/node2_home
-    labels:
-      org.label-schema.group: "monitoring" 
+ 
