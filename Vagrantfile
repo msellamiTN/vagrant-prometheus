@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION)  do  |config|
   config.vm.define  "master"  do  |app|
     app.vm.hostname  =  "master"
     app.vm.network  :private_network,  ip:  "192.168.60.10"
+	app.vm.network "forwarded_port", guest: 9090, host: 9090
   end
 
   #  Swarm node 1.
