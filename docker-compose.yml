@@ -3,7 +3,9 @@ version: '3.7'
 services:
 
   master:
-    build: /prometheus/Dockerfile
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
     hostname: master
     volumes:
       - /var/lib/master:/master_home
@@ -12,7 +14,9 @@ services:
     labels:
       org.label-schema.group: "monitoring"
   node1:
-    build: /node_exporter/Dockerfile
+    build:
+      context: ./node_exporter
+      dockerfile: Dockerfile
     hostname: node1
     ports:
       - "9100:9100"
@@ -21,7 +25,9 @@ services:
     labels:
       org.label-schema.group: "monitoring" 
   node2:
-    build: /node_exporter/Dockerfile
+    build:
+      context: ./node_exporter
+      dockerfile: Dockerfile
     hostname: node2
     ports:
       - "9101:9100"
