@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION)  do  |config|
     app.vm.hostname  =  "node2"
 	app.vm.provision "shell", path: "boostrap_node_exporter.sh"
     app.vm.network  :private_network,  ip:  "192.168.60.30"
-	app.vm.network "forwarded_port", guest: 9100, host: 9100 
+	app.vm.network "forwarded_port", guest: 9100, host: 9110
   end
 
 end
