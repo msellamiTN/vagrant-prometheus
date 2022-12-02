@@ -1,10 +1,9 @@
-version: '3.7'
+version: '2.1'
 
 networks:
   monitor-net:
     driver: bridge
-    external:
-      name: kafka-netwrok
+
 
 volumes:
     prometheus_data: {}
@@ -12,11 +11,8 @@ volumes:
 
 services:
 
-  master:
-    build:
-      context: ./prometheus
-      dockerfile: Dockerfile
-    hostname: master
+  prometheus:
+    image: prom/prometheus:v2.29.0
     container_name: prometheus
     volumes:
       - ./prometheus:/etc/prometheus
@@ -35,11 +31,26 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
-  node1:
-    build:
-      context: ./node_exporter
-      dockerfile: Dockerfile
-    hostname: node1
+
+  alertmanager:
+    image: prom/alertmanager:v0.22.2
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: unless-stopped
+    expose:
+      - 9093
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
+  nodeexporter:
+    image: prom/node-exporter:v1.2.2
+    container_name: nodeexporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -56,8 +67,128 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.40.0
+    container_name: cadvisor
     volumes:
-      - /var/lib/node1:/node1_home
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
+    restart: unless-stopped
+    expose:
+      - 8080
+    networks:
+      - monitor-net
     labels:
-      org.label-schema.group: "monitoring" 
- 
+      org.label-schema.group: "monitoring"
+
+  grafana:
+    image: grafana/grafana:8.1.2
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    expose:
+      - 3000
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
+  pushgateway:
+    image: prom/pushgateway:v1.4.1
+    container_name: pushgateway
+    restart: unless-stopped
+    expose:
+      - 9091
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+
+  caddy:
+    image: caddy:2.3.0
+    container_name: caddy
+    ports:
+      - "3000:3000"
+      - "9090:9090"
+      - "9093:9093"
+      - "9091:9091"
+      - "9104:9104"
+    volumes:
+      - ./caddy:/etc/caddy
+    environment:
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-JDJhJDE0JE91S1FrN0Z0VEsyWmhrQVpON1VzdHVLSDkyWHdsN0xNbEZYdnNIZm1pb2d1blg4Y09mL0ZP}
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+  
+  mysqlexporter57:
+    container_name: mysqlexporter57
+    image: prom/mysqld-exporter
+    expose:
+      - 9104
+    environment: 
+    - "DATA_SOURCE_NAME=root:mypassword@(mysqld57:3306)/" 
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    command:
+      - '--collect.info_schema.processlist'
+      - '--collect.info_schema.innodb_metrics'
+      - '--collect.info_schema.tablestats'
+      - '--collect.info_schema.tables'
+      - '--collect.info_schema.userstats'
+      - '--collect.engine_innodb_status'      
+    labels:
+      org.label-schema.group: "monitoring"
+  
+  mysqlexporter8:
+    container_name: mysqlexporter8
+    image: prom/mysqld-exporter
+    expose:
+      - 9104
+    environment: 
+    - "DATA_SOURCE_NAME=exporter:secret@(mysqld57:3306)/" 
+    restart: unless-stopped
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+    command:
+      - '--collect.info_schema.processlist'
+      - '--collect.info_schema.innodb_metrics'
+      - '--collect.info_schema.tablestats'
+      - '--collect.info_schema.tables'
+      - '--collect.info_schema.userstats'
+      - '--collect.engine_innodb_status'        
+  
+  mysqld57:
+    image: mysql:5.7.16
+    container_name: mysqld57
+    ports:
+      - 3306:3306
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "MySQL_DB"  
+      
