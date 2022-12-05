@@ -195,8 +195,8 @@ services:
     image: bitnami/jenkins:latest
     container_name: jenkins
     environment:
-      - JENKINS_USERNAME=jenkins_user
-      - JENKINS_PASSWORD=jenkins@2022
+      JENKINS_USERNAME: jenkins_user
+      JENKINS_PASSWORD: jenkins@2022
     ports:
       - '80:8080'
       - '443:8443'
@@ -214,9 +214,9 @@ services:
     ports:
       - 9118:9118
     environment:
-      JENKINS_SERVER=http://jenkins:8080 
-      JENKINS_USERNAME=jenkins_user
-      JENKINS_PASSWORD=jenkins@2022
+      JENKINS_SERVER: http://jenkins:8080 
+      JENKINS_USERNAME: jenkins_user
+      JENKINS_PASSWORD: jenkins@2022
     networks:
       - monitor-net
     labels:
