@@ -191,4 +191,33 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "MySQL_DB"  
-      
+  jenkins:
+    image: bitnami/jenkins:latest
+    container_name: jenkins
+    environment:
+      - JENKINS_USERNAME=jenkins_user
+      - JENKINS_PASSWORD=jenkins@2022
+    ports:
+      - '80:8080'
+      - '443:8443'
+      - '50000:50000'
+    volumes:
+      - 'jenkins_data:/bitnami'
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "jenkins_exporter"         
+  jenkins_exporter:
+    build: 
+      context: ./jenkins_exporter
+    container_name: jenkins_exporter
+    ports:
+      - 9118:9118
+    environment:
+      JENKINS_SERVER=http://jenkins:8080 
+      JENKINS_USERNAME=jenkins_user
+      JENKINS_PASSWORD=jenkins@2022
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "jenkins_exporter"       
