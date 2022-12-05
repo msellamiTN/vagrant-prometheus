@@ -8,6 +8,7 @@ networks:
 volumes:
     prometheus_data: {}
     grafana_data: {}
+    jenkins_data: {}
 
 services:
 
@@ -213,6 +214,8 @@ services:
     container_name: jenkins_exporter
     ports:
       - 9118:9118
+    volumes:
+      - 'jenkins_data:/bitnami'
     environment:
       JENKINS_SERVER: http://jenkins:8080 
       JENKINS_USERNAME: jenkins_user
